@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: node-red
+  name: node-red
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: node-red
+    spec:
+      containers:
+      - image: msa-devops.face.aero.org:5000/docker-node-red-worldmap:latest
+        name: node-red
+        ports:
+        - containerPort: 1880
+        resources: {}
+        volumeMounts:
+        - mountPath: /data
+          name: node-red-claim0
+      restartPolicy: Always
+      volumes:
+      - name: node-red-claim0
+        persistentVolumeClaim:
+          claimName: node-red-claim0
+status: {}
